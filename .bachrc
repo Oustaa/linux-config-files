@@ -13,10 +13,7 @@ esac
 HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
-
-#Loaded: 1%Progress bar: 59.71%
-#Loaded: 1%Progress bar: 59.71%
-#hopt -s histappend
+shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
@@ -94,7 +91,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
 alias cls='clear'
 
 # Add an "alert" alias for long running commands.  Use like so:
@@ -121,57 +117,86 @@ if ! shopt -oq posix; then
   fi
 fi
 
-PATH=~/.console-ninja/.bin:$PATH
+.profiler() {
+   nvim ~/.bashrc && . ~/.bashrc
+} 
 
-kousta-ui() {
-  cd /home/ousta/Desktop/projects/kousta-ui 
-  code .
+######################################
+############## PROJECTS ##############
+######################################
+
+() {
+  cd ~/Desktop/projects
 }
 
-iptech() {
-  cd /home/ousta/Desktop/projects/integral
-  code .
+cip() {
+  cd /home/ousta/Desktop/projects/iptech
 }
 
-nacc() {
-  cd /home/ousta/Desktop/projects/nacc 
-  code . 
+ibn() {
+  cd /home/ousta/Desktop/projects/iptech/integral-api-nodejs-test
+  if [ "$1" ]; then
+    if [  $1 = "code" ]; then
+      code .
+    fi
+  fi
 }
 
-prj() {
-  cd ~/Desktop/projects/
+ife() {
+  cd /home/ousta/Desktop/projects/iptech/erp-integrall-front-end 
+  if [ "$1" ]; then
+    if [  $1 = "code" ]; then
+      code .
+    fi
+  fi
 }
 
-mysql() { 
-  sudo mysql -u root
+######################################
+########## MYSQL AND APACHE ##########
+######################################
+
+start-s-a() {
+  echo "starting mysql..."
+  sudo service mysql start
+  echo "starting apache2..."
+  sudo service apache2 start
 }
 
-or-connect() {
-  ssh ousta@143.47.60.55
+stop-s-a() {
+  echo "stoping mysql..."
+  sudo systemctl stop mysql
+  echo "stoping apache2..."
+  sudo systemctl stop apache2
 }
 
-start-a-m() {
-  sudo systemctl start apache2
-  sudo systemctl start mysql
+######################################
+################ GIT #################
+######################################
+gb() {
+  git branch $1
 }
 
-stop-a-m() {
-  sudo service apache2 stop
-  sudo service mysql stop 
+gbc() {
+  git checkout -B $1	
 }
 
-# git functions
+gbd() {
+  git branch -D $1
+}
+
+gc() {
+  git checkout $1
+}
 
 gs() {
   git status
 }
 
-ga(){
-  git add $1
+######################################
+############## SERVERS ###############
+######################################
+or-connect() {
+  ssh ousta@143.47.60.55
 }
 
-gc() {
-  git commit -m $1
-}
-
-alias .profile='nvim ~/.bashrc && . ~/.bashrc'
+PATH=~/.console-ninja/.bin:$PATH
